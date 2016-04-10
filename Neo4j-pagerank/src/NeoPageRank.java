@@ -79,7 +79,7 @@ public class NeoPageRank extends ServerPlugin {
 					Node startnode = n.getStartNode();
 					pagerank += dampingfactor * newPR.get(startnode)/startnode.getDegree(Direction.OUTGOING);
 				}
-				newPR.replace(currentNode, pagerank); //update pagerank
+				newPR.put(currentNode, pagerank); //update pagerank
 			}
 			
 			counter++;
