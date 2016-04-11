@@ -2,15 +2,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.Transaction;
-import org.neo4j.graphdb.factory.Description;
 import org.neo4j.server.plugins.Name;
+import org.neo4j.server.plugins.Parameter;
+import org.neo4j.server.plugins.PluginTarget;
 import org.neo4j.server.plugins.ServerPlugin;
 import org.neo4j.server.plugins.Source;
 import org.neo4j.tooling.GlobalGraphOperations;
@@ -20,21 +20,35 @@ public class NeoPageRank extends ServerPlugin {
 	
 	
 	@Name("NeoPageRank")
-	public Iterable<Node> PageRank(@Source GraphDatabaseService db) {		
+	@PluginTarget(Node.class)
+	public Iterable<Node> PageRank(@Source GraphDatabaseService db, 
+			@Parameter(name = "itterations") int ittr,
+			@Parameter(name = "damping/teleportation") double dampingfactor
+			) {		
 		this.db = db;
 		//initialize nodelist
-		Map<Node, Double> nodeWeightRankList = new HashMap<Node,Double>();
+		Map<Node, Double> nodeWeightRankList;
 		ArrayList<Node> nodes = getNodes(db);
 		
+		nodeWeightRankList = rank(nodes, dampingfactor, ittr);
 		
-		
-		return null;
+		return getLabeledNodes(nodeWeightRankList);
 		
 	}
-
 	
-	
-	public Map<Node, Double> rank(ArrayList<Node> PR, int dampingfactor, int itterations) {
+	public Iterable<Node> getLabeledNodes(Map<Node, Double> list) {
+		Iterable<Node> result = new ArrayList<Node>();
+		for(Map.Entry<Node, Double> m : list.entrySet()) {
+			Double d = m.getValue();
+			RankLabel label = new RankLabel("rank", d);
+			m.getKey().addLabel(label);
+		}
+		
+		return result;
+		
+	}
+		
+	public Map<Node, Double> rank(ArrayList<Node> PR, double dampingfactor, int itterations) {
 		
 		double sinkPR;
 		Map<Node, Double> newPR = new HashMap<Node, Double>();
