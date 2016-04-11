@@ -20,9 +20,7 @@ public class NeoPageRank extends ServerPlugin {
 	
 	
 	@Name("NeoPageRank")
-	public Iterable<Node> PageRank(@Source GraphDatabaseService db) {
-		int itterations = 10; //hardcoded temporarily 
-		
+	public Iterable<Node> PageRank(@Source GraphDatabaseService db) {		
 		this.db = db;
 		//initialize nodelist
 		Map<Node, Double> nodeWeightRankList = new HashMap<Node,Double>();
@@ -38,7 +36,6 @@ public class NeoPageRank extends ServerPlugin {
 	
 	public Map<Node, Double> rank(ArrayList<Node> PR, int dampingfactor, int itterations) {
 		
-		boolean converged = false;
 		double sinkPR;
 		Map<Node, Double> newPR = new HashMap<Node, Double>();
 		
@@ -50,7 +47,7 @@ public class NeoPageRank extends ServerPlugin {
 		int counter=0;
 		while(counter < itterations ) {
 			sinkPR = 0;
-			Iterator nodes = PR.iterator();
+			Iterator<Node> nodes = PR.iterator();
 			//iterate over 'sink nodes' with no outlinks
 			while(nodes.hasNext()) {
 				Node currentnode = (Node) nodes.next();
@@ -67,7 +64,6 @@ public class NeoPageRank extends ServerPlugin {
 				}
 			}
 			
-			ArrayList<Double> newprtmp = new ArrayList<Double>();
 			nodes = PR.iterator();
 			//iterate over all nodes
 			while(nodes.hasNext()) {
@@ -100,18 +96,6 @@ public class NeoPageRank extends ServerPlugin {
 		return nodes;
 	}
 	
-	private ArrayList<Relationship> getRelationships(GraphDatabaseService db) {
-		ArrayList<Relationship> relations = new ArrayList<Relationship>();
-		try(Transaction tx = db.beginTx()) {
-			
-			for(Relationship relation : GlobalGraphOperations.at(db).getAllRelationships()) {
-				relations.add(relation);
-			}
-			tx.success();
-		}
-		
-		return relations;
-	}
 	
 	
 }
