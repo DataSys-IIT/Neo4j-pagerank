@@ -25,6 +25,7 @@ public class NeoPageRank extends ServerPlugin {
 			@Parameter(name = "itterations") int ittr,
 			@Parameter(name = "damping/teleportation") double dampingfactor
 			) {		
+		Transaction t =db.beginTx();
 		this.db = db;
 		//initialize nodelist
 		Map<Node, Double> nodeWeightRankList;
@@ -32,6 +33,7 @@ public class NeoPageRank extends ServerPlugin {
 		
 		nodeWeightRankList = rank(nodes, dampingfactor, ittr);
 		
+		t.close();
 		return getLabeledNodes(nodeWeightRankList);
 		
 	}
