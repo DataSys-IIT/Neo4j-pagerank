@@ -10,6 +10,7 @@ import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.Transaction;
+import org.neo4j.server.plugins.Description;
 import org.neo4j.server.plugins.Name;
 import org.neo4j.server.plugins.Parameter;
 import org.neo4j.server.plugins.PluginTarget;
@@ -22,10 +23,11 @@ public class NeoPageRank extends ServerPlugin {
 	
 	
 	@Name("NeoPageRank")
+	@Description("Pagerank implimentation for neo4j")
 	@PluginTarget(GraphDatabaseService.class)
 	public Iterable<Node> PageRank(@Source GraphDatabaseService db, 
-			@Parameter(name = "itterations") int ittr,
-			@Parameter(name = "damping/teleportation") double dampingfactor
+			@Parameter(name = "itterations") Integer ittr,
+			@Parameter(name = "damping/teleportation") Double dampingfactor
 			) {		
 		Transaction t =db.beginTx();
 		this.db = db;
