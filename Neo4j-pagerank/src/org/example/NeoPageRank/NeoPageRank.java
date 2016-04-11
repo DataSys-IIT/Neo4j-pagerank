@@ -17,12 +17,13 @@ import org.neo4j.server.plugins.PluginTarget;
 import org.neo4j.server.plugins.ServerPlugin;
 import org.neo4j.server.plugins.Source;
 import org.neo4j.tooling.GlobalGraphOperations;
+@Description("Pagerank for neo4j")
 public class NeoPageRank extends ServerPlugin {
 
 	public GraphDatabaseService db;
 	
 	
-	@Name("NeoPageRank")
+	@Name("pagerank")
 	@Description("Pagerank implimentation for neo4j")
 	@PluginTarget(GraphDatabaseService.class)
 	public Iterable<Node> PageRank(@Source GraphDatabaseService db, 
