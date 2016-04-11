@@ -1,3 +1,4 @@
+package org.example.NeoPageRank;
 import org.neo4j.graphdb.Label;
 
 

@@ -1,3 +1,5 @@
+package org.example.NeoPageRank;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
