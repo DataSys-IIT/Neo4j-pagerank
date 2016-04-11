@@ -22,7 +22,7 @@ public class NeoPageRank extends ServerPlugin {
 	
 	
 	@Name("NeoPageRank")
-	@PluginTarget(Node.class)
+	@PluginTarget(GraphDatabaseService.class)
 	public Iterable<Node> PageRank(@Source GraphDatabaseService db, 
 			@Parameter(name = "itterations") int ittr,
 			@Parameter(name = "damping/teleportation") double dampingfactor
