@@ -1,4 +1,4 @@
-package org.example.NeoPageRank;
+package org.neo4j.server.plugins.NeoPageRank;
 
 import java.util.ArrayList;
 import java.util.HashMap;

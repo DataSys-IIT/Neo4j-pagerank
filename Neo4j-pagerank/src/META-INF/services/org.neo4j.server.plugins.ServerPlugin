@@ -1,1 +1,1 @@
-org.example.NeoPageRank
+org.neo4j.server.plugins.NeoPageRank.NeoPageRank
