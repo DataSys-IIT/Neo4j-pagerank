@@ -37,9 +37,10 @@ public class NeoPageRank extends ServerPlugin {
 		ArrayList<Node> nodes = getNodes(db);
 		
 		nodeWeightRankList = rank(nodes, dampingfactor, ittr);
-		
+		Iterable<Node> result =  getLabeledNodes(nodeWeightRankList);
+		t.success();
 		t.close();
-		return getLabeledNodes(nodeWeightRankList);
+		return result;
 		
 	}
 	
