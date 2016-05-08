@@ -44,12 +44,22 @@ public class NeoPageRank extends ServerPlugin {
 		
 	}
 	
+	public Map<Node, Double> debugMap(ArrayList<Node> in) {
+		Map<Node, Double> result = new HashMap<Node, Double>();
+		for(int x=0;x<in.size();x++) {
+			result.put(in.get(x), 1.0);
+		}
+		
+		return result;
+	}
+	
 	public Iterable<Node> getLabeledNodes(Map<Node, Double> list) {
-		Iterable<Node> result = new ArrayList<Node>();
+		ArrayList<Node> result = new ArrayList<Node>();
 		for(Map.Entry<Node, Double> m : list.entrySet()) {
 			Double d = m.getValue();
 			RankLabel label = new RankLabel("rank", d);
 			m.getKey().addLabel(label);
+			result.add(m.getKey());
 		}
 		
 		return result;
