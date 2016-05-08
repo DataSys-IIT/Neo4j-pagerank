@@ -108,13 +108,9 @@ public class NeoPageRank extends ServerPlugin {
 
 	private ArrayList<Node> getNodes(GraphDatabaseService db) {
 		ArrayList<Node> nodes = new ArrayList<Node>();
-		try(Transaction tx = db.beginTx()) {
-			
 			for(Node node : GlobalGraphOperations.at(db).getAllNodes()) {
 				nodes.add(node);
 			}
-			tx.success();
-		}
 		return nodes;
 	}
 	
