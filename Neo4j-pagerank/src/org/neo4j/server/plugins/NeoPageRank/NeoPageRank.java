@@ -40,7 +40,7 @@ public class NeoPageRank extends ServerPlugin {
 		nodeWeightRankList = rank(nodes, dampingfactor, ittr);
 		ArrayList<Node> result =  getLabeledNodes(nodeWeightRankList);
 		long timeend = System.nanoTime();
-		RankLabel label = new RankLabel("TIME", timeend - timestart);
+		RankLabel label = new RankLabel("TIME", (timeend - timestart)/100000000);
 		Node n = db.createNode();
 		n.addLabel(label);
 		result.add(n);
