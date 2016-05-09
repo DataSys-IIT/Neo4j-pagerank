@@ -31,13 +31,19 @@ public class NeoPageRank extends ServerPlugin {
 			@Parameter(name = "damping/teleportation") Double dampingfactor
 			) {		
 		Transaction t =db.beginTx();
+		long timestart = System.nanoTime(); 
 		this.db = db;
 		//initialize nodelist
 		Map<Node, Double> nodeWeightRankList;
 		ArrayList<Node> nodes = getNodes(db);
 		
 		nodeWeightRankList = rank(nodes, dampingfactor, ittr);
-		Iterable<Node> result =  getLabeledNodes(nodeWeightRankList);
+		ArrayList<Node> result =  getLabeledNodes(nodeWeightRankList);
+		long timeend = System.nanoTime();
+		RankLabel label = new RankLabel("TIME", timeend - timestart);
+		Node n = db.createNode();
+		n.addLabel(label);
+		result.add(n);
 		t.success();
 		t.close();
 		return result;
@@ -53,7 +59,7 @@ public class NeoPageRank extends ServerPlugin {
 		return result;
 	}
 	
-	public Iterable<Node> getLabeledNodes(Map<Node, Double> list) {
+	public ArrayList<Node> getLabeledNodes(Map<Node, Double> list) {
 		ArrayList<Node> result = new ArrayList<Node>();
 		for(Map.Entry<Node, Double> m : list.entrySet()) {
 			Double d = m.getValue();
